@@ -20,13 +20,13 @@ jobs:
       - name: Launch tmate manually
         run: |
           tmate -S /tmp/tmate.sock new-session -d
-          tmate -S /tmp/tmate.sock wait-activity
+          sleep 3
           echo "=== ССЫЛКИ ДЛЯ ПОДКЛЮЧЕНИЯ ==="
-          tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}'
-          tmate -S /tmp/tmate.sock display -p '#{tmate_web}'
+          tmate -S /tmp/tmate.sock display -p 'SSH: #{tmate_ssh}'
+          tmate -S /tmp/tmate.sock display -p 'WEB: #{tmate_web}'
           echo "============================="
-          # Заставляем машину ждать, пока вы работаете в консоли
-          while [ ! -f /tmp/continue ]; do sleep 2; done
+          # Бесконечный цикл, удерживающий сессию, пока вы не создадите файл continue
+          while [ ! -f /tmp/continue ]; do sleep 5; done
 
       - name: Build
         run: |
