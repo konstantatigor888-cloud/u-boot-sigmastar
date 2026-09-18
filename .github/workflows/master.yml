@@ -20,13 +20,20 @@ jobs:
       - name: Launch tmate manually
         run: |
           tmate -S /tmp/tmate.sock new-session -d
-          sleep 3
+          
+          echo "Ожидание генерации ссылок подключения..."
+          until tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}' | grep -q 'ssh'; do
+            sleep 2
+          done
+          
           echo "=== ССЫЛКИ ДЛЯ ПОДКЛЮЧЕНИЯ ==="
           tmate -S /tmp/tmate.sock display -p 'SSH: #{tmate_ssh}'
           tmate -S /tmp/tmate.sock display -p 'WEB: #{tmate_web}'
           echo "============================="
-          # Бесконечный цикл, удерживающий сессию, пока вы не создадите файл continue
+          
+          # Удерживаем сессию
           while [ ! -f /tmp/continue ]; do sleep 5; done
+
 
       - name: Build
         run: |
