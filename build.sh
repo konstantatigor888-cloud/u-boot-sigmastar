@@ -21,30 +21,6 @@ spinand() {
 	make distclean
 }
 
-# spinor infinity6
-for soc in ssc325; do
-	spinor $soc infinity6
-done
-
-# spinand infinity6
-for soc in ssc325de; do
-	spinand $soc infinity6
-done
-
-# spinor infinity6b0
-for soc in ssc333 ssc335 ssc337 ssc335de ssc337de; do
-	spinor $soc infinity6b0
-done
-
-# spinand infinity6b0
-for soc in ssc337de; do
-	spinand $soc infinity6b0
-done
-
-# spinor infinity6c
-for soc in ssc377 ssc377d ssc377de ssc377qe ssc378de ssc378qe; do
-	spinor $soc infinity6c
-done
 
 # spinor infinity6e
 for soc in ssc30kd ssc30kq ssc338q; do
