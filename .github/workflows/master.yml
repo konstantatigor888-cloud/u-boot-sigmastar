@@ -17,28 +17,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gcc-arm-linux-gnueabi gdb tmate
           
-      - name: Launch tmate manually
-        run: |
-          tmate -S /tmp/tmate.sock new-session -d
-          
-          echo "Ожидание генерации ссылок подключения..."
-          until tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}' | grep -q 'ssh'; do
-            sleep 2
-          done
-          
-          # Получаем готовую строку подключения
-          SSH_CMD=$(tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}')
-          
-          echo "=== ССЫЛКИ ДЛЯ ПОДКЛЮЧЕНИЯ ==="
-          echo "$SSH_CMD"
-          echo "============================="
-          
-          # Отправляем ссылку вам на компьютер
-          curl -d "$SSH_CMD" ntfy.sh/konstantatigor888_debug
-          
-          # Удерживаем сессию
-          while [ ! -f /tmp/continue ]; do sleep 5; done
-
+      - name: Start SSH Session
+        uses: lhotari/action-upterm@v1
+        with:
+          limit-access-to-actor: true
 
       - name: Build
         run: |
