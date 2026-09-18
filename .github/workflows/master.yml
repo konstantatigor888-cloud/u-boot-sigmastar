@@ -16,7 +16,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y gcc-arm-linux-gnueabi gdb tmate
-
+          
       - name: Launch tmate manually
         run: |
           tmate -S /tmp/tmate.sock new-session -d
@@ -26,10 +26,15 @@ jobs:
             sleep 2
           done
           
+          # Получаем готовую строку подключения
+          SSH_CMD=$(tmate -S /tmp/tmate.sock display -p '#{tmate_ssh}')
+          
           echo "=== ССЫЛКИ ДЛЯ ПОДКЛЮЧЕНИЯ ==="
-          tmate -S /tmp/tmate.sock display -p 'SSH: #{tmate_ssh}'
-          tmate -S /tmp/tmate.sock display -p 'WEB: #{tmate_web}'
+          echo "$SSH_CMD"
           echo "============================="
+          
+          # Отправляем ссылку вам на компьютер
+          curl -d "$SSH_CMD" ntfy.sh/konstantatigor888_debug
           
           # Удерживаем сессию
           while [ ! -f /tmp/continue ]; do sleep 5; done
