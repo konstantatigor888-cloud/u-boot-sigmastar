@@ -19,8 +19,6 @@ jobs:
           
       - name: Start SSH Session
         uses: lhotari/action-upterm@v1
-        with:
-          limit-access-to-actor: true
 
       - name: Build
         run: |
